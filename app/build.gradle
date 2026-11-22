@@ -54,8 +54,8 @@ android {
             def keystorePassword = System.getenv("RELEASE_STORE_PASSWORD") ?: keystoreProperties.getProperty('storePassword')
             def keyAliasName = System.getenv("RELEASE_KEY_ALIAS") ?: keystoreProperties.getProperty('keyAlias')
             def keyPasswordValue = System.getenv("RELEASE_KEY_PASSWORD") ?: keystoreProperties.getProperty('keyPassword')
-            def keystoreFile = rootProject.file(keystoreFilePath)
-            if (keystoreFile.exists() && keystorePassword && keyAliasName && keyPasswordValue) {
+            def keystoreFile = keystoreFilePath ? rootProject.file(keystoreFilePath) : null
+            if (keystoreFile?.exists() && keystorePassword && keyAliasName && keyPasswordValue) {
                 storeFile = keystoreFile
                 storePassword = keystorePassword
                 keyAlias = keyAliasName
@@ -84,7 +84,7 @@ android {
         }
         debug {
             applicationIdSuffix = ".debug"
-            signingConfig = signingConfigs.release
+            signingConfig = signingConfigs.debug
         }
     }
 
